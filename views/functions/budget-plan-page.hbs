@@ -1,0 +1,317 @@
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Maven+Pro:wght@500&display=swap");
+
+  .total-body {
+    background-color: #c9c9c9;
+    background-size: cover;
+    height: 100vh;
+  }
+
+  .total-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 51rem;
+    height: 45rem;
+    background: #fff;
+    text-align: center;
+    border: solid 5px #c9c9c9;
+  }
+
+  #Total-form {
+    padding-top: 4rem;
+    width: 80%;
+    margin: auto;
+    opacity: 0;
+    animation: fadeIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) 0.175s 1 normal forwards;
+  }
+
+  #Total-form .input-container {
+    position: relative;
+    height: 4em;
+    background: rgba(126, 126, 126, 0.1);
+    border: 2px solid rgba(126, 126, 126, 0.1);
+    margin-bottom: 16px;
+    border-bottom-width: 1px;
+  }
+
+  #Total-form .input-value {
+    float: right;
+    box-sizing: border-box;
+  }
+
+  #Total-form .input-value label,
+  #Total-form .input-value input {
+    padding: 1px 0.4em 1px 0.4em;
+  }
+
+  #form .input-value+* {
+    clear: both;
+  }
+
+  #Total-form .input-value {
+    width: 100%;
+  }
+
+  #Total-form input {
+    display: block;
+    position: absolute;
+    height: 2.4em;
+    border: 0;
+    background: none;
+    z-index: 1;
+    font-size: 1.6em;
+    font-weight: bold;
+    font-family: "Maven Pro", sans-serif;
+    letter-spacing: 0.012em;
+    color: #333;
+  }
+
+  #Total-form input[type="number"] {
+    width: 100%;
+    padding-top: 1em;
+  }
+
+  #Total-form label {
+    font-family: "Maven Pro", sans-serif;
+    font-weight: bold;
+    display: block;
+    position: absolute;
+    margin-top: 2px;
+    padding: 1px;
+    color: #525252;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 1.2em;
+    animation-name: labelIn;
+    animation-duration: 0.2s;
+    animation-direction: reverse;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+  }
+
+  #Total-form input:focus+label,
+  #Total-form input:valid+label {
+    font-weight: bold;
+    animation-name: labelOut;
+    animation-duration: 0.2s;
+    animation-direction: normal;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+  }
+
+  @keyframes labelIn {
+    0% {
+      left: 1px;
+      opacity: 1;
+      top: 1.2em;
+      font-size: 1em;
+      padding-left: 1em;
+    }
+
+    50% {
+      font-size: 1em;
+      left: 1em;
+      opacity: 0;
+      top: 1.2em;
+      padding-left: 1em;
+    }
+
+    50.01% {
+      font-size: 0.85em;
+      left: 1em;
+      opacity: 0;
+      top: 0.2em;
+    }
+
+    100% {
+      font-size: 0.85em;
+      opacity: 1;
+      left: 1px;
+      top: 0.2em;
+    }
+  }
+
+  @keyframes labelOut {
+    0% {
+      left: 1px;
+      opacity: 1;
+      top: 1.2em;
+      font-size: 1em;
+      padding-left: 1em;
+    }
+
+    50% {
+      font-size: 1em;
+      left: 1em;
+      opacity: 0;
+      top: 1.2em;
+      padding-left: 1em;
+    }
+
+    50.01% {
+      font-size: 0.85em;
+      left: 1em;
+      opacity: 0;
+      top: 0.2em;
+    }
+
+    100% {
+      font-size: 0.85em;
+      opacity: 1;
+      left: 1px;
+      top: 0.2em;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  .flex1,
+  .flex2,
+  .flex3 {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 35px;
+    gap: 30px
+  }
+
+  .flex4 {
+    display: flex;
+    /* margin-top: 24px; */
+    gap: 30px;
+  }
+
+  .flex5 {
+    display: flex;
+    justify-content: right
+  }
+
+  .flex5 .Total-button {
+    margin: 0 10px;
+  }
+
+  #Total-form .Total-button {
+    position: relative;
+    margin-top: 2.5rem;
+  }
+
+  #Total-form .Total-button .Total-btn {
+    padding: 5px;
+    height: 4rem;
+    border-radius: 10%;
+    color: #e8e8e8;
+    background: #c9c9c9;
+    border: 0;
+    font-size: 2rem;
+    font-family: "Maven Pro", sans-serif;
+    font-weight: bold;
+
+  }
+
+  #Total-form .Total-button :hover {
+    background: #bc252a;
+    cursor: pointer;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 2rem;
+    font-family: "Maven Pro", sans-serif;
+    margin-top: 40px;
+  }
+
+  .alert.alert-success.alert-dismissible {
+    width: 438px;
+    position: fixed;
+    right: 0;
+    top: 76px;
+  }
+
+.alert.alert-danger.alert-dismissible {
+  width: 438px;
+  position: fixed;
+  right: 0;
+  top: 76px;
+  }
+</style>
+
+<div class="total-body">
+  <div class="total-container">
+    <h1>Budget plan</h1>
+    <div id="form">
+      <form action="/functions/budget-plan" id="Total-form" method="post">
+        <div class="flex4">
+          <div class="input-container input-value">
+            <input type="number" value="{{ data.totalMoney }}" name="totalMoney" required />
+            <label for="totalMoney">Total money</label>
+          </div>
+        </div>
+        <div class="flex1">
+          <div class="input-container input-value">
+            <input type="number" value="{{ data.food }}" name="food" required />
+            <label for="food">Food</label>
+          </div>
+          <div class="input-container input-value">
+            <input type="number" value="{{ data.entertainment }}" name="entertainment" required />
+            <label for="entertainment">Entertainment</label>
+          </div>
+        </div> <!-- Close .flex1 -->
+        <div class="flex2">
+          <div class="input-container input-value">
+            <input type="number" value="{{ data.education }}" name="education" required />
+            <label for="education">Education</label>
+          </div>
+          <div class="input-container input-value">
+            <input type="number" value="{{ data.clothes }}" name="clothes" required />
+            <label for="clothes">Clothes</label>
+          </div>
+        </div> <!-- Close .flex2 -->
+        <div class="flex3">
+          <div class="input-container input-value">
+            <input type="number" value="{{ data.invest }}" name="invest" required />
+            <label for="invest">Invest</label>
+          </div>
+          <div class="input-container input-value">
+            <input type="number" value="{{ data.other }}" name="other" required />
+            <label for="other">Others...</label>
+          </div>
+        </div>
+        <div class="flex5">
+          <div class="Total-button">
+            <button type="submit" class="Total-btn">
+              <a href="/functions/auto-planning" style=" color: #e8e8e8; text-decoration: none;">Support</a>
+            </button>
+          </div>
+          <div class="Total-button">
+            <button type="submit" class="Total-btn">
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{#if isValid}}
+<div class="alert alert-success alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong>Success!</strong> A new budget plan has just been added
+</div>
+{{/if}}
+
+{{#if isNotValid}}
+<div class="alert alert-danger alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong>Failed!</strong> Expenses cannot be larger than the total amount
+</div>
+{{/if}}

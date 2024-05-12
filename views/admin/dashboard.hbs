@@ -1,0 +1,689 @@
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+  admin-container {
+    min-height: 100vh;
+    background: #eef5fe;
+    display: flex;
+  }
+
+  /* Pre css */
+  .flex {
+    display: flex;
+    align-items: center;
+  }
+
+  .nav_image {
+    display: flex;
+    min-width: 55px;
+    justify-content: center;
+  }
+
+  .nav_image img {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 270px;
+    background: #c9c9c9;
+    padding: 15px 10px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+  }
+
+  .sidebar.close {
+    width: calc(55px + 20px);
+  }
+
+  .logo_items {
+    gap: 8px;
+  }
+
+  .logo_name {
+    font-size: 22px;
+    color: #333;
+    font-weight: 500px;
+    transition: all 0.3s ease;
+  }
+
+  .sidebar.close .logo_name,
+  .sidebar.close #lock-icon,
+  .sidebar.close #sidebar-close {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  #lock-icon,
+  #sidebar-close {
+    padding: 10px;
+    color: #4070f4;
+    font-size: 25px;
+    cursor: pointer;
+    margin-left: -4px;
+    transition: all 0.3s ease;
+  }
+
+  #sidebar-close {
+    display: none;
+    color: #333;
+  }
+
+  .menu_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 40px;
+    overflow-y: auto;
+    height: calc(100% - 82px);
+  }
+
+  .menu_container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .menu_title {
+    position: relative;
+    height: 50px;
+    width: 55px;
+  }
+
+  .menu_title .title {
+    margin-left: 15px;
+    transition: all 0.3s ease;
+  }
+
+  .sidebar.close .title {
+    opacity: 0;
+  }
+
+  .menu_title .line {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 3px;
+    width: 20px;
+    border-radius: 25px;
+    background: #aaa;
+    transition: all 0.3s ease;
+  }
+
+  .menu_title .line {
+    opacity: 0;
+  }
+
+  .sidebar.close .line {
+    opacity: 1;
+  }
+
+  .item {
+    list-style: none;
+  }
+
+  .link {
+    text-decoration: none;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    color: #707070;
+  }
+
+  .link:hover {
+    color: black;
+    background-color: #fff;
+    border-radius: 8px;
+  }
+
+  .isOpened {
+    color: black;
+    background-color: #fff;
+    border-radius: 8px;
+  }
+
+  .link span {
+    white-space: nowrap;
+  }
+
+  .link i {
+    height: 50px;
+    min-width: 55px;
+    display: flex;
+    font-size: 22px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
+
+  .sidebar_profile {
+    padding-top: 15px;
+    margin-top: 15px;
+    gap: 15px;
+    border-top: 2px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar_profile .name {
+    font-size: 18px;
+    color: #333;
+  }
+
+  .sidebar_profile .email {
+    font-size: 15px;
+    color: #333;
+  }
+
+  /* NavbarAdmin */
+  .navbarAdmin {
+    max-width: 500px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 60%;
+    transform: translateX(-50%);
+    background: #fff;
+    padding: 10px 20px;
+    border-radius: 0 0 8px 8px;
+    justify-content: space-between;
+  }
+
+  #sidebar-open {
+    font-size: 30px;
+    color: #333;
+    cursor: pointer;
+    margin-right: 20px;
+    display: none;
+  }
+
+  .navbarAdmin img {
+    height: 40px;
+    width: 40px;
+    margin-left: 20px;
+  }
+
+  /* Responsive */
+  @media screen and (max-width: 1100px) {
+    .navbarAdmin {
+      left: 65%;
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    .sidebar {
+      left: 0;
+      z-index: 1000;
+    }
+
+    .sidebar.close {
+      left: -100%;
+    }
+
+    #sidebar-close {
+      display: block;
+    }
+
+    #lock-icon {
+      display: none;
+    }
+
+    .navbarAdmin {
+      left: 0;
+      max-width: 100%;
+      transform: translateX(0%);
+    }
+
+    #sidebar-open {
+      display: block;
+    }
+  }
+
+  .admin-content {
+    min-height: 92.5vh;
+    color: black;
+    margin-left: 284px;
+  }
+
+  .statistic-user {
+    font-family: "Maven Pro", sans-serif;
+    font-weight: bold;
+    justify-content: flex-end;
+  }
+
+  .new-users-monthly {
+    text-align: center;
+    height: 98px;
+    width: 194px;
+    background-color: black;
+    color: #fff;
+    border-radius: 8px;
+    padding: 4px;
+    margin: 4px 8px;
+  }
+
+  .total-users {
+    text-align: center;
+    height: 98px;
+    width: 180px;
+    background-color: black;
+    color: #fff;
+    border-radius: 8px;
+    padding: 4px;
+    margin: 4px 8px;
+    margin-right: 60px;
+  }
+
+  .pie-chart-job {
+    position: relative;
+    height: 412px;
+  }
+
+  .student-chart,
+  .it-chart,
+  .doctor-chart,
+  .teacher-chart,
+  .worker-chart,
+  .other-chart {
+    position: relative;
+    height: 300px;
+  }
+</style>
+
+<div class="admin-container">
+
+  <nav class="sidebar">
+    <div class="menu_container">
+      <div class="menu_items">
+        <ul class="menu_item">
+          <div class="menu_title flex">
+            <span class="title">DASHBOARD</span>
+            <span class="line"></span>
+          </div>
+          <li class="item">
+            <a href="/admin/dashboard" class="link flex isOpened">
+              <i class="bx bx-home-alt"></i>
+              <span>Overview</span>
+            </a>
+          </li>
+          <li class="item">
+            <a href="/admin/database" class="link flex">
+              <i class="bx bx-data"></i>
+              <span>Database</span>
+            </a>
+          </li>
+        </ul>
+        <ul class="menu_item">
+          <div class="menu_title flex">
+            <span class="title">USERS</span>
+            <span class="line"></span>
+          </div>
+          <li class="item">
+            <a href="/admin/list-users?mode=all" class="link flex">
+              <i class="bx bxs-user-detail"></i>
+              <span>Managing users</span>
+            </a>
+          </li>
+          <li class="item">
+            <a href="/admin/search-user" class="link flex">
+              <i class="bx bx-search"></i>
+              <span>Searching user</span>
+            </a>
+          </li>
+        </ul>
+        <ul class="menu_item">
+          <div class="menu_title flex">
+            <span class="title">OTHER</span>
+            <span class="line"></span>
+          </div>
+          <li class="item">
+            <a href="/admin/contact" class="link flex">
+              <i class="bx bx-envelope"></i>
+              <span>Contact</span>
+            </a>
+          </li>
+          <li class="item">
+            <a href="/log-out" class="link flex">
+              <i class="bx bx-log-out"></i>
+              <span>Log out</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="sidebar_profile flex">
+        <span class="nav_image">
+          <img src="../../public/img/logomoney2.jpg" alt="logo_img" />
+        </span>
+        <div class="data_text">
+          <span class="name">iamkhanhh</span>
+          <span class="email">khanh9102004@gmail.com</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="admin-content">
+
+    <div class="statistic-user row">
+      <div class="new-users-monthly">
+        <p>NEW USERS (monthly)</p>
+        <p style="font-size: 28px;">{{ amountOfNewUsers }}</p>
+      </div>
+      <div class="total-users">
+        <p>TOTAL USERS</p>
+        <p style="font-size: 28px;">{{ amountOfUsers }}</p>
+      </div>
+    </div>
+
+    <div class="statistic-job row mt-4">
+      <div class="col-7">
+        <div class="card">
+          <div class="card-body">
+            <h4>PIE CHART</h4>
+            <hr>
+            <div class="pie-chart-job">
+              <canvas id="myChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-5">
+        <div class="card">
+          <div class="card-body">
+            <h4>PERCENTAGE OF PROFESSION</h4>
+            <hr>
+            <div class="progress-chart-job">
+              <div class="d-flex mb-2">
+                <div>STUDENT</div>
+              </div>
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                  style="width: {{ listPercentageEachJob.student }}%;" aria-valuenow="{{ listPercentageEachJob.student }}" aria-valuemin="0" aria-valuemax="100"> {{ listPercentageEachJob.student }}%</div>
+              </div>
+              <hr>
+              <div class="d-flex mb-2">
+                <div>IT</div>
+              </div>
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                  style="width: {{ listPercentageEachJob.it }}%;" aria-valuenow="{{ listPercentageEachJob.it }}" aria-valuemin="0" aria-valuemax="100">{{ listPercentageEachJob.it }}%</div>
+              </div>
+              <hr>
+              <div class="d-flex mb-2">
+                <div>DOCTOR</div>
+              </div>
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                  style="width: {{ listPercentageEachJob.doctor }}%;" aria-valuenow="{{ listPercentageEachJob.doctor }}" aria-valuemin="0" aria-valuemax="100">{{ listPercentageEachJob.doctor }}%</div>
+              </div>
+              <hr>
+              <div class="d-flex mb-2">
+                <div>TEACHER</div>
+              </div>
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                  style="width: {{ listPercentageEachJob.teacher }}%;" aria-valuenow="{{ listPercentageEachJob.teacher }}" aria-valuemin="0" aria-valuemax="100">{{ listPercentageEachJob.teacher }}%</div>
+              </div>
+              <hr>
+              <div class="d-flex mb-2">
+                <div>WORKER</div>
+              </div>
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                  style="width: {{ listPercentageEachJob.worker }}%;" aria-valuenow="{{ listPercentageEachJob.worker }}" aria-valuemin="0" aria-valuemax="100">{{ listPercentageEachJob.worker }}%</div>
+              </div>
+              <hr>
+              <div class="d-flex mb-2">
+                <div>OTHER</div>
+              </div>
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                  style="width: {{ listPercentageEachJob.other }}%;" aria-valuenow="{{ listPercentageEachJob.other }}" aria-valuemin="0" aria-valuemax="100">{{ listPercentageEachJob.other }}%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="statistic-each-job mt-4">
+      <div class="row">
+        <div class="col-6">
+          <div class="card">
+            <div class="card-body">
+              <h4>STUDENT</h4>
+              <hr>
+              <div>
+                <canvas id="student-chart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="card">
+            <div class="card-body">
+              <h4>IT</h4>
+              <hr>
+              <div>
+                <canvas id="it-chart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4 mb-4">
+        <div class="col-6">
+          <div class="card">
+            <div class="card-body">
+              <h4>DOCTOR</h4>
+              <hr>
+              <div>
+                <canvas id="doctor-chart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="card">
+            <div class="card-body">
+              <h4>TEACHER</h4>
+              <hr>
+              <div>
+                <canvas id="teacher-chart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-6">
+          <div class="card">
+            <div class="card-body">
+              <h4>WORKER</h4>
+              <hr>
+              <div>
+                <canvas id="worker-chart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="card">
+            <div class="card-body">
+              <h4>OTHER</h4>
+              <hr>
+              <div>
+                <canvas id="other-chart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const ctx = document.getElementById('myChart');
+  const studentChart = document.getElementById('student-chart');
+  const itChart = document.getElementById('it-chart');
+  const doctorChart = document.getElementById('doctor-chart');
+  const teacherChart = document.getElementById('teacher-chart');
+  const workerChart = document.getElementById('worker-chart');
+  const otherChart = document.getElementById('other-chart');
+
+  new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: ['STUDENT', 'IT', 'DOCTOR', 'TEACHER', 'WORKER', 'OTHER'],
+      datasets: [{
+        label: 'amount of profession',
+        data: [{{ dataPieChart.student }}, {{ dataPieChart.it }}, {{ dataPieChart.doctor }}, {{ dataPieChart.teacher }}, {{ dataPieChart.worker }}, {{ dataPieChart.other }}],
+      }],
+    },
+    options: {
+      plugins: {
+        legend: {
+          position: 'right',
+          labels: {
+            font: {
+              size: 20 // Đặt kích thước của font
+            }
+          }
+        },
+        title: {
+          display: true,
+          text: 'JOBS',
+          font: {
+            size: 32 // Đặt kích thước của font cho tiêu đề
+          }
+        }
+      },
+      maintainAspectRatio: false
+    }
+  });
+
+  new Chart(studentChart, {
+    type: 'bar',
+    data: {
+      labels: ['FOOD', 'EDUCATION', 'ENTERTAINMENT', 'CLOTHES', 'INVEST', 'OTHER'],
+      datasets: [{
+        label: 'amount of used money',
+        data: [{{ studentStatistic.food }}, {{ studentStatistic.education }}, {{ studentStatistic.entertainment }}, {{ studentStatistic.clothes }}, {{ studentStatistic.invest }}, {{ studentStatistic.other }}],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  new Chart(itChart, {
+    type: 'bar',
+    data: {
+      labels: ['FOOD', 'EDUCATION', 'ENTERTAINMENT', 'CLOTHES', 'INVEST', 'OTHER'],
+      datasets: [{
+        label: 'amount of used money',
+        data: [{{ itStatistic.food }}, {{ itStatistic.education }}, {{ itStatistic.entertainment }}, {{ itStatistic.clothes }}, {{ itStatistic.invest }}, {{ itStatistic.other }}],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  new Chart(doctorChart, {
+    type: 'bar',
+    data: {
+      labels: ['FOOD', 'EDUCATION', 'ENTERTAINMENT', 'CLOTHES', 'INVEST', 'OTHER'],
+      datasets: [{
+        label: 'amount of used money',
+        data: [{{ doctorStatistic.food }}, {{ doctorStatistic.education }}, {{ doctorStatistic.entertainment }}, {{ doctorStatistic.clothes }}, {{ doctorStatistic.invest }}, {{ doctorStatistic.other }}],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  new Chart(teacherChart, {
+    type: 'bar',
+    data: {
+      labels: ['FOOD', 'EDUCATION', 'ENTERTAINMENT', 'CLOTHES', 'INVEST', 'OTHER'],
+      datasets: [{
+        label: 'amount of used money',
+        data: [{{ teacherStatistic.food }}, {{ teacherStatistic.education }}, {{ teacherStatistic.entertainment }}, {{ teacherStatistic.clothes }}, {{ teacherStatistic.invest }}, {{ teacherStatistic.other }}],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  new Chart(workerChart, {
+    type: 'bar',
+    data: {
+      labels: ['FOOD', 'EDUCATION', 'ENTERTAINMENT', 'CLOTHES', 'INVEST', 'OTHER'],
+      datasets: [{
+        label: 'amount of used money',
+        data: [{{ workerStatistic.food }}, {{ workerStatistic.education }}, {{ workerStatistic.entertainment }}, {{ workerStatistic.clothes }}, {{ workerStatistic.invest }}, {{ workerStatistic.other }}],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  new Chart(otherChart, {
+    type: 'bar',
+    data: {
+      labels: ['FOOD', 'EDUCATION', 'ENTERTAINMENT', 'CLOTHES', 'INVEST', 'OTHER'],
+      datasets: [{
+        label: 'amount of used money',
+        data: [{{ otherStatistic.food }}, {{ otherStatistic.education }}, {{ otherStatistic.entertainment }}, {{ otherStatistic.clothes }}, {{ otherStatistic.invest }}, {{ otherStatistic.other }}],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>

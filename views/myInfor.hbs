@@ -1,0 +1,168 @@
+<style>
+  body {
+    margin: 0;
+  }
+
+  .bgr {
+    height: 100vh;
+    background-image: linear-gradient(90deg, rgba(200, 200, 200, 0.2), rgba(200, 200, 200, 0.4), rgba(200, 200, 200, 0.6), rgba(200, 200, 200, 0.8), rgba(200, 200, 200, 1));
+    background-size: cover;
+    }
+
+    .h1 {
+      margin: 0px 0px 0px 40px;
+      padding: 40px 0px 0px 0px;
+      font-size: 50px;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+
+    .boxtop {
+      width: 700px;
+      height: 200px;
+      background-color: rgb(255, 255, 255);
+      position: absolute;
+      top: 30px;
+      left: 600px;
+      margin:0px 0px 0px 0px;
+    }
+
+    .boxt1 {
+      width: 200px;
+      height: 200px;
+      background-color: rgb(48, 48, 48);
+      position: relative;
+      bottom: 42px;
+
+    }
+
+    .boxbot {
+      width: 700px;
+      height: 350px;
+      background-color: rgb(255, 255, 255);
+      position: absolute;
+      top: 250px;
+      left: 600px;
+      margin:0px 0px 0px 0px;
+    }
+
+    .boxb1 {
+      width: 200px;
+      height: 350px;
+      background-color: rgb(48, 48, 48);
+    }
+
+    .textbox1 {
+      font-size: 30px;
+      color: aliceblue;
+      position: relative;
+      top: 10px;
+      left: 20px;
+
+    }
+
+    .userid1 {
+      position: relative;
+      top: 20px;
+      left: 250px;  
+    }
+
+    .userid2 {
+      position: absolute;
+      top: 20px;
+      left: 480px;
+
+    }
+
+    .Change1 {
+      position: absolute;
+      top: 20px;
+      left: 250px;
+    }
+
+    .Change2 {
+      position: absolute;
+      left: 250px;
+      top: 100px;
+    }
+
+    .Change3 {
+      position: absolute;
+      left: 250px;
+      top: 180px;
+    }
+
+    #input1 {
+      width: 170px;
+      height: 40px;
+      margin-top: 0px;
+      background-color: #c3c3c3;
+      border: none;
+      padding: 4px;
+    }
+
+    #input2 {
+      width: 350px;
+      height: 40px;
+      background-color: #c3c3c3;
+      border: none;
+      padding: 4px;
+    }
+
+
+    .button_am {
+      position: absolute;
+      left: 20px;
+      top: 140px;
+      width: 80px;
+      height: 40px;
+      border: 4px solid #c3c3c3;
+      color: #5c5c5c;
+      border-color: rgb(100, 100, 100);
+      background-color: #ffffff;
+      font-size: 18px;
+      padding: 1px 1px 1px 1px;
+      text-align: center;
+      cursor: pointer;
+      margin-top: 1px;
+      margin-bottom:1px;
+      margin-left:550px;
+      margin-right:600px;
+    }
+
+    .button_am:hover {
+      background-color: #4a4a4a;
+      color: #ffffff;
+    }
+
+    #bot {
+      top: 290px;
+    }
+</style>
+
+<div class="bgr">
+  <h1 class="h1">Account<br>Management</h1>
+  <div class="boxtop">
+    <form action="/auth/change-infor" method="post">
+      <input id="input1" name="fullName" type="text" class="userid1" value="{{data.fullName}}">
+      <input id="input1" name="userName" type="text" class="userid2" value="{{data.userName}}">
+      <button id="top" class="button_am" type="submit">Save</button>
+    </form>
+    <div class="boxt1">
+      <div class="textbox1">User ID </div>
+    </div>
+  </div>
+  <div class="boxbot">
+    <form action="/auth/change-password" method="post">
+      <input id="input2" name="curPassword" type="password" class="Change1" placeholder="CURRENT PASSWORD ">
+      <input id="input2" name="newPassword" type="password" class="Change2" placeholder="NEW PASSWORD ">
+      <input id="input2" name="confPassword" type="password" class="Change3" placeholder="CONFIRM PASSWORD ">
+
+      <button id="bot" class="button_am" type="submit">Save</button>
+    </form>
+    <div class="boxb1">
+      <div class="textbox1">Change<br>Password </div>
+
+    </div>
+  </div>
+
+</div>

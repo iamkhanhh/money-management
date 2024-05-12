@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg black-color header">
+  <a class="navbar-brand" href="/">MONEY MANAGEMENT</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse component-right-header" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-link component-right" href="/about-us">ABOUT US</a>
+
+      {{#if userName}}
+      <a class="nav-link component-right" href="/dashboard">DASHBORAD</a>
+      <li class="nav-item dropdown mr-4">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+          <i class="fa fa-user-circle" aria-hidden="true"></i>
+          {{ userName }}
+        </a>
+        <div class="dropdown-menu" style="backgroud-color: red">
+          <a class="nav-link component-right" href="/my-infor">MY ACCOUNT</a>
+          <a class="nav-link component-right" href="/log-out">LOG OUT</a>
+        </div>
+      </li>
+      {{else}}
+      <a class="nav-link component-right" href="auth/log-in">LOG IN</a>
+      {{/if}}
+    </div>
+  </div>
+</nav>

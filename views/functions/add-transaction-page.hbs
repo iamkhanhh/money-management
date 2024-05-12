@@ -1,0 +1,141 @@
+<style>
+  .head {
+    text-align: center;
+  }
+
+  .text {
+    color: black;
+    text-align: center;
+    font-size: 50px;
+    padding: 15px 0px 30px 0px;
+    font-family: sans-serif;
+
+  }
+
+  .bgrmain {
+    position: absolute;
+    top: -57px;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../../public/img/background-dashboard.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+  }
+
+  .component-add-transaction {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .button {
+    color: #fff;
+    background-color: #c9c9c9;
+    font-size: 20px;
+    padding: 15px 16px 15px 16px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-left: 600px;
+    margin-right: 600px;
+    border-radius: 10px;
+    box-shadow: 1px 5px 10px #757575;
+  }
+
+  .button:hover {
+    background-color: #fff;
+    color: black;
+  }
+
+  input {
+    width: 600px;
+    padding-left: 10px;
+    height: 50px;
+    margin-bottom: 40px;
+    border-radius: 7px;
+    box-shadow: 1px 5px 10px #757575;
+    border: 1px solid grey;
+    background-color: #c9c9c9;
+    font-size: 15px;
+    display: block;
+    margin-left: 370px;
+    box-sizing: border-box;
+  }
+
+  .select {
+    font-size: 15px;
+    width: 600px;
+    padding-left: 8px;
+    height: 50px;
+    margin-bottom: 40px;
+    border-radius: 7px;
+    box-shadow: 1px 5px 10px #757575;
+    border: 1px solid grey;
+    color: #757575;
+    cursor: pointer;
+    background-color: #c9c9c9;
+    display: block;
+    margin-left: 370px;
+    box-sizing: border-box;
+
+  }
+
+  .alert.alert-success.alert-dismissible {
+    width: 438px;
+    position: fixed;
+    right: 0;
+  }
+
+  .alert.alert-danger.alert-dismissible {
+    width: 438px;
+    position: fixed;
+    right: 0;
+  }
+</style>
+
+<div class="bgrmain">
+  <div class="component-add-transaction">
+    <div class="text head">Transaction Details</div>
+    <form action="/functions/add-transaction" method="post">
+      <input id="box1" type="text" class="box" placeholder="Transaction's name" name="name">
+      <input type="number" min="0" class="box" placeholder="Amount" name="amount_of_money">
+
+      <select name="payment_method" class="select">
+        <option value="Credit card">Credit card</option>
+        <option value="Cash">Cash</option>
+        <option value="Debit card">Debit card</option>
+        <option value="e-Wallet">e-Wallet</option>
+      </select>
+
+      <select name="category_name" class="select">
+        <option value="Food">Food</option>
+        <option value="Education">Education</option>
+        <option value="Clothes">Clothes</option>
+        <option value="Entertainment">Entertainment</option>
+        <option value="Invest">Invest</option>
+        <option value="Others">Others</option>
+      </select>
+
+      <input type="date" class="box" placeholder="Transaction Date" name="exchange_date">
+      <button class="button" type="submit">SUBMIT</button>
+    </form>
+  </div>
+</div>
+
+{{#if isAdded}}
+<div class="alert alert-success alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong>Success!</strong> A new transaction has just been added
+</div>
+{{/if}}
+
+{{#if notAdded}}
+<div class="alert alert-danger alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong>Failed!</strong> The amount has exceeded the allowed budget
+</div>
+{{/if}}

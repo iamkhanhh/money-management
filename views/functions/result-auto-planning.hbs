@@ -1,0 +1,343 @@
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Maven+Pro:wght@500&display=swap");
+
+  .support-body {
+    background-color: #c9c9c9;
+    background-size: cover;
+    height: 100vh;
+  }
+
+  .support-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 51rem;
+    height: 45rem;
+    background: #fff;
+    text-align: center;
+    border: solid 5px #c9c9c9;
+  }
+
+  #form {
+    padding-top: 32px;
+    width: 80%;
+    margin: auto;
+    opacity: 0;
+    animation: fadeIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) 0.175s 1 normal forwards;
+  }
+
+  .input-container {
+    position: relative;
+    height: 4em;
+    background: rgba(126, 126, 126, 0.1);
+    border: 2px solid rgba(126, 126, 126, 0.1);
+    margin-bottom: 16px;
+    border-bottom-width: 1px;
+  }
+
+  .input-value {
+    float: right;
+    box-sizing: border-box;
+  }
+
+  .input-value label,
+  .input-value input {
+    padding: 1px 0.4em 1px 0.4em;
+  }
+
+  .input-value+* {
+    clear: both;
+  }
+
+  .input-value {
+    width: 100%;
+  }
+
+  input {
+    display: block;
+    position: absolute;
+    height: 2.4em;
+    border: 0;
+    background: none;
+    z-index: 1;
+    font-size: 1.6em;
+    font-weight: bold;
+    font-family: "Maven Pro", sans-serif;
+    letter-spacing: 0.012em;
+    color: #333;
+  }
+
+  input[type="number"] {
+    width: 100%;
+    padding-top: 1em;
+  }
+
+  label {
+    font-family: "Maven Pro", sans-serif;
+    font-weight: bold;
+    display: block;
+    position: absolute;
+    margin-top: 2px;
+    padding: 1px;
+    color: #525252;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 1.2em;
+    animation-name: labelIn;
+    animation-duration: 0.2s;
+    animation-direction: reverse;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+  }
+
+  input:focus+label,
+  input:valid+label {
+    font-weight: bold;
+    animation-name: labelOut;
+    animation-duration: 0.2s;
+    animation-direction: normal;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+  }
+
+  @keyframes labelIn {
+    0% {
+      left: 1px;
+      opacity: 1;
+      top: 1.2em;
+      font-size: 1em;
+      padding-left: 1em;
+    }
+
+    50% {
+      font-size: 1em;
+      left: 1em;
+      opacity: 0;
+      top: 1.2em;
+      padding-left: 1em;
+    }
+
+    50.01% {
+      font-size: 0.85em;
+      left: 1em;
+      opacity: 0;
+      top: 0.2em;
+    }
+
+    100% {
+      font-size: 0.85em;
+      opacity: 1;
+      left: 1px;
+      top: 0.2em;
+    }
+  }
+
+  @keyframes labelOut {
+    0% {
+      left: 1px;
+      opacity: 1;
+      top: 1.2em;
+      font-size: 1em;
+      padding-left: 1em;
+    }
+
+    50% {
+      font-size: 1em;
+      left: 1em;
+      opacity: 0;
+      top: 1.2em;
+      padding-left: 1em;
+    }
+
+    50.01% {
+      font-size: 0.85em;
+      left: 1em;
+      opacity: 0;
+      top: 0.2em;
+    }
+
+    100% {
+      font-size: 0.85em;
+      opacity: 1;
+      left: 1px;
+      top: 0.2em;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  .flex1 {
+    display: flex;
+  }
+
+  .flex2,
+  .flex3 {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+    gap: 30px
+  }
+
+  .flex4 {
+    display: flex;
+    margin-top: 30px;
+    gap: 25px;
+  }
+
+  .flex5 {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .flex5 .input-container {
+        justify-content: space-around;
+  }
+
+  {{!-- .flex5 .input-container {
+    flex-basis: calc((100% - 2 * 25px - 2 * 20px) / 5);
+  }
+
+  .flex5 .input-container:nth-child(1),
+  .flex5 .input-container:nth-child(2) {
+    flex-basis: calc((100% - 2 * 25px - 2 * 20px) / 3);
+  } --}}
+
+  .flex6 {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .support-button {
+    position: relative;
+    margin-top: 2.5rem;
+  }
+
+  .support-button .support-btn {
+    width: 6rem;
+    height: 4rem;
+    border-radius: 20%;
+    color: #e8e8e8;
+    background: #c9c9c9;
+    border: 0;
+    font-size: 3rem;
+  }
+
+  .support-button .support-btn:hover {
+    background: #bc252a;
+    cursor: pointer;
+  }
+
+  p {
+    font-size: 30px;
+    font-family: "Maven Pro", sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 2.3em;
+    font-weight: bold;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-family: "Maven Pro", sans-serif;
+    margin-top: 50px;
+  }
+
+  .h6, h6 {
+    font-size: 2rem;
+    color: white;
+  }
+
+  .alert.alert-danger.alert-dismissible {
+    width: 438px;
+    position: fixed;
+    right: 0;
+    top: 76px;
+  }
+</style>
+
+<div class="support-body">
+  <div class="support-container">
+    <h1>Budget plan</h1>
+    <form id="form" action="/functions/budget-plan" method="post">
+      <div class="support-form">
+        <div class="flex1">
+          <div class="input-container input-value">
+            <input type="number" value="{{ data.totalMoney }}" name="totalMoney" required />
+            <label for="Total money">Total money</label>
+          </div>
+        </div>
+        <div class="flex2">
+          <div class="input-container input-value">
+            <input type="number" value="{{ data.expenses }}" name="Ex" required />
+            <label for="Ex">Expenses</label>
+          </div>
+          <div class="input-container input-value">
+            <input type="number" value="{{ data.saving }}" name="Sv" required />
+            <label for="Sv">Saving</label>
+          </div>
+        </div>
+        <div class="p2">
+          <p>Categories</p>
+        </div>
+        <div class="flex4">
+          <div class="input-container input-value">
+            <input type="number" value="{{ data.food }}" name="food" required />
+            <label for="Food">Food</label>
+          </div>
+          <div class="input-container input-value">
+            <input type="number" value="{{ data.entertainment }}" name="entertainment" required />
+            <label for="Entertainment">Entertainment</label>
+          </div>
+          <div class="input-container input-value">
+            <input type="number" value="{{ data.education }}" name="education" required />
+            <label for="Education">Education</label>
+          </div>
+        </div>
+        <div class="flex5">
+          <div class="input-container input-value">
+            <input type="number" value="{{ data.clothes }}" name="clothes" required />
+            <label for="Clothes">Clothes</label>
+          </div>
+          <div class="input-container input-value">
+            <input type="number" value="{{ data.invest }}" name="invest" required />
+            <label for="Invest">Invest</label>
+          </div>
+          <div class="input-container input-value">
+            <input type="number" value="{{ data.other }}" name="other" required />
+            <label for="Other">Other</label>
+          </div>
+        </div>
+        <div class="flex6">
+          <div class="support-button">
+            <button type="submit" class="support-btn">
+              <h6>Yes</h6>
+            </button>
+          </div>
+          <div class="support-button">
+            <button type="button" class="support-btn">
+              <a href="/functions/budget-plan" style="text-decoration: none;"><h6>No</h6></a>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+{{#if isNotValid}}
+<div class="alert alert-danger alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong>Failed!</strong> There is an error when analyzing
+</div>
+{{/if}}

@@ -1,0 +1,54 @@
+<div class="dashboard">
+  <div class="my-dashboard-components">
+    <h1 class="mt-4" style="color: #000; margin-left: 8px">DASHBOARD</h1>
+
+    <div class="list-of-function mt-4">
+      <div class="component-function">
+        <a href="/functions/add-transaction">
+          <div class="img-function"></div>
+          <p style="color: white;">Add transaction</p>
+        </a>
+      </div>
+
+      <div class="component-function">
+        <a href="/functions/information-report">
+          <div class="img-function"></div>
+          <p style="color: white;">Information report</p>
+        </a>
+      </div>
+
+      <div class="component-function">
+        <a href="/functions/budget-plan">
+          <div class="img-function"></div>
+          <p style="color: white;">Budget plan</p>
+        </a>
+      </div>
+
+      <div class="component-function">
+        <a href="/functions/search-for-transactions">
+          <div class="img-function"></div>
+          <p style="color: white;">Search for transactions</p>
+        </a>
+      </div>
+
+      {{#if isAdmin}}  
+      <div class="component-function">
+        <a href="/admin/dashboard">
+          <div class="img-function"></div>
+          <p style="color: white;">ADMIN</p>
+        </a>
+      </div>
+      {{/if}}
+
+            <div class="component-function disabled-div">
+        <a class="#">
+          <div class="overlay"></div>
+          <div class="img-function"></div>
+          <div class="coming-soon">Coming soon...</div>
+          <p style="color: white;">AI analyst</p>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>

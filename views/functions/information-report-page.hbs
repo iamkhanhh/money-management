@@ -1,0 +1,277 @@
+<style>
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  input[type="month"] {
+    padding: 4px;
+    margin-right: 8px;
+  }
+
+  .analyze-btn {
+    font-family: "Maven Pro", sans-serif;
+    font-weight: bold;
+    border-radius: 4px;
+  }
+
+  .analyze-btn:hover {
+    background-color: black;
+    color: white;
+  }
+
+  .time-infor {
+    font-family: "Maven Pro", sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+    height: 100%;
+    border-radius: 10px;
+    background-color: black;
+    width: 16%;
+    margin: 12px;
+    color: white;
+    text-align: center;
+  }
+
+  .moneySaved {
+    font-family: "Maven Pro", sans-serif;
+    font-weight: bold;
+    height: 100%;
+    border-radius: 10px;
+    background-color: black;
+    width: 16%;
+    margin: 12px;
+    color: white;
+  }
+
+  .moneySaved #moneySaved-label {
+    font-size: 24px;
+  }
+
+  .moneySaved #moneySaved-amount {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .time-statistic {
+    padding: 16px;
+  }
+
+  #progress-chart {
+    text-align: center;
+    margin: 24px;
+  }
+
+  .progress-chart {
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .progress {
+    flex-grow: 1;
+    margin-bottom: 10px;
+  }
+</style>
+
+<div class="statistic-container">
+  <div class="row justify-content-around">
+    <div class="time-statistic">
+      <form action="/functions/information-report" method="post">
+        <input type="month" name="timeStatistic">
+        <button type="summit" class="btn btn-light analyze-btn">Analyze</button>
+      </form>
+    </div>
+
+    <div class="time-infor">
+      <p>T{{monthInfor}}/{{yearInfor}}</p>
+    </div>
+
+    <div class="moneySaved">
+      <p id="moneySaved-label">Money saved (VND)</p>
+      <p id="moneySaved-amount">{{ moneyLeft }}</p>
+    </div>
+  </div>
+  <div class="content-statistic">
+    <div class="row">
+
+      <div class="col-7">
+        <div class="pie-chart">
+          <div class="card">
+            <div class="card-body">
+              <h5>PIE CHART</h5>
+              <hr>
+              <canvas id="pieChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-5">
+        <div class="progress-chart">
+          <div class="card">
+            <h5 id="progress-chart">PROGRESS CHART</h5>
+            <div class="card-body">
+              <div class="d-flex mb-2">
+                <div>FOOD</div>
+              </div>
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                  style="width: {{progressChart.food}}%;" aria-valuenow="{{progressChart.food}}" aria-valuemin="0" aria-valuemax="100">{{progressChart.food}}%</div>
+              </div>
+              <hr>
+              <div class="d-flex mb-2">
+                <div>EDUCATION</div>
+              </div>
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                  style="width: {{progressChart.education}}%;" aria-valuenow="{{progressChart.education}}" aria-valuemin="0" aria-valuemax="100">{{progressChart.education}}%</div>
+              </div>
+              <hr>
+              <div class="d-flex mb-2">
+                <div>ENTERTAINMENT</div>
+              </div>
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                  style="width: {{progressChart.entertainment}}%;" aria-valuenow="{{progressChart.entertainment}}" aria-valuemin="0" aria-valuemax="100">{{progressChart.entertainment}}%</div>
+              </div>
+              <hr>
+              <div class="d-flex mb-2">
+                <div>CLOTHES</div>
+              </div>
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                  style="width: {{progressChart.clothes}}%;" aria-valuenow="{{progressChart.clothes}}" aria-valuemin="0" aria-valuemax="100">{{progressChart.clothes}}%</div>
+              </div>
+              <hr>
+              <div class="d-flex mb-2">
+                <div>INVEST</div>
+              </div>
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                  style="width: {{progressChart.invest}}%;" aria-valuenow="{{progressChart.invest}}" aria-valuemin="0" aria-valuemax="100">{{progressChart.invest}}%</div>
+              </div>
+              <hr>
+              <div class="d-flex mb-2">
+                <div>OTHER</div>
+              </div>
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                  style="width: {{progressChart.other}}%;" aria-valuenow="{{progressChart.other}} " aria-valuemin="0" aria-valuemax="100">{{progressChart.other}} %</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="lineAndBarChart">
+          <div class="card">
+            <div class="card-body">
+              <h5>DYNAMIC CHART</h5>
+              <hr>
+              <canvas id="lineAndBarChart"></canvas>
+              <hr>
+              <button type="button" class="btn btn-outline-success" id="line">Line chart</button>
+              <button type="button" class="btn btn-outline-danger" id="bar">Bar chart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const chart1 = document.getElementById('pieChart').getContext('2d');
+  const chart2 = document.getElementById('lineAndBarChart').getContext('2d');
+  const line = document.getElementById('line');
+  const bar = document.getElementById('bar');
+
+  line.addEventListener('click', changeLine);
+  bar.addEventListener('click', changeBar);
+
+  new Chart(chart1, {
+    type: 'pie',
+    data: {
+      labels: ['FOOD', 'EDUCATION', 'ENTERTAINMENT', 'CLOTHES', 'INVEST', 'OTHER'],
+      datasets: [{
+        label: 'money used',
+        data: [{{pieChart.food}}, {{pieChart.education}}, {{pieChart.entertainment}}, {{pieChart.clothes}}, {{pieChart.invest}}, {{pieChart.other}}],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          position: 'right',
+          labels: {
+            font: {
+              size: 20 // Đặt kích thước của font
+            }
+          }
+        },
+        title: {
+          display: true,
+          text: 'Categories',
+          font: {
+            size: 32 // Đặt kích thước của font cho tiêu đề
+          }
+        }
+      },
+      aspectRatio: 1.7,
+    }
+  });
+
+  const dataDynamicChart = {
+    labels: ['FOOD', 'EDUCATION', 'ENTERTAINMENT', 'CLOTHES', 'INVEST', 'OTHER'],
+    datasets: [{
+      label: 'Previous month',
+      data: [{{dynamicChart.previousMonthFood}}, {{dynamicChart.previousMonthEducation}}, {{dynamicChart.previousMonthEntertainment}}, {{dynamicChart.previousMonthClothes}}, {{dynamicChart.previousMonthInvest}}, {{dynamicChart.previousMonthOther}}],
+      borderWidth: 1
+    }, {
+      label: 'This month',
+      data: [{{dynamicChart.thisMonthFood}}, {{dynamicChart.thisMonthEducation}}, {{dynamicChart.thisMonthEntertainment}}, {{dynamicChart.thisMonthClothes}}, {{dynamicChart.thisMonthInvest}}, {{dynamicChart.thisMonthOther}}],
+      borderWidth: 1
+    }]
+  }
+
+  const configLine = {
+    type: 'line',
+    data: dataDynamicChart,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  }
+
+  const configBar = {
+    type: 'bar',
+    data: dataDynamicChart,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  }
+
+  let dynamicChart = new Chart(chart2, configLine);
+
+  function changeLine() {
+    dynamicChart.destroy();
+    dynamicChart = new Chart(chart2, configLine);
+  };
+
+  function changeBar() {
+    dynamicChart.destroy();
+    dynamicChart = new Chart(chart2, configBar);
+  };
+</script>

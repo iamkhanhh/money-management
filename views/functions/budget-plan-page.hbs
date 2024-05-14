@@ -5,6 +5,7 @@
     background-color: #c9c9c9;
     background-size: cover;
     height: 100vh;
+    background-image: url(../../public/img/test3.png);
   }
 
   .total-container {
@@ -68,7 +69,7 @@
     color: #333;
   }
 
-  #Total-form input[type="number"] {
+  #Total-form input[type="text"] {
     width: 100%;
     padding-top: 1em;
   }
@@ -218,7 +219,8 @@
   }
 
   #Total-form .Total-button :hover {
-    background: #bc252a;
+    background-color: #60aa82;
+    color: white;
     cursor: pointer;
   }
 
@@ -236,7 +238,7 @@
     top: 76px;
   }
 
-.alert.alert-danger.alert-dismissible {
+  .alert.alert-danger.alert-dismissible {
   width: 438px;
   position: fixed;
   right: 0;
@@ -251,37 +253,37 @@
       <form action="/functions/budget-plan" id="Total-form" method="post">
         <div class="flex4">
           <div class="input-container input-value">
-            <input type="number" value="{{ data.totalMoney }}" name="totalMoney" required />
+            <input type="text" value="{{ data.totalMoney }}" name="totalMoney" id="totalMoney" oninput="formatCurrency(this)"/>
             <label for="totalMoney">Total money</label>
           </div>
         </div>
         <div class="flex1">
           <div class="input-container input-value">
-            <input type="number" value="{{ data.food }}" name="food" required />
+            <input type="text" value="{{ data.food }}" name="food" id="food" oninput="formatCurrency(this)"/>
             <label for="food">Food</label>
           </div>
           <div class="input-container input-value">
-            <input type="number" value="{{ data.entertainment }}" name="entertainment" required />
+            <input type="text" value="{{ data.entertainment }}" name="entertainment" id="entertainment" oninput="formatCurrency(this)"/>
             <label for="entertainment">Entertainment</label>
           </div>
         </div> <!-- Close .flex1 -->
         <div class="flex2">
           <div class="input-container input-value">
-            <input type="number" value="{{ data.education }}" name="education" required />
+            <input type="text" value="{{ data.education }}" name="education" id="education" oninput="formatCurrency(this)"/>
             <label for="education">Education</label>
           </div>
           <div class="input-container input-value">
-            <input type="number" value="{{ data.clothes }}" name="clothes" required />
+            <input type="text" value="{{ data.clothes }}" name="clothes" id="clothes" oninput="formatCurrency(this)"/>
             <label for="clothes">Clothes</label>
           </div>
         </div> <!-- Close .flex2 -->
         <div class="flex3">
           <div class="input-container input-value">
-            <input type="number" value="{{ data.invest }}" name="invest" required />
+            <input type="text" value="{{ data.invest }}" name="invest" id="invest" oninput="formatCurrency(this)"/>
             <label for="invest">Invest</label>
           </div>
           <div class="input-container input-value">
-            <input type="number" value="{{ data.other }}" name="other" required />
+            <input type="text" value="{{ data.other }}" name="other" id="other" oninput="formatCurrency(this)"/>
             <label for="other">Others...</label>
           </div>
         </div>
@@ -315,3 +317,33 @@
   <strong>Failed!</strong> Expenses cannot be larger than the total amount
 </div>
 {{/if}}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    formatCurrency(document.getElementById("totalMoney"));
+    formatCurrency(document.getElementById("food"));
+    formatCurrency(document.getElementById("entertainment"));
+    formatCurrency(document.getElementById("education"));
+    formatCurrency(document.getElementById("clothes"));
+    formatCurrency(document.getElementById("invest"));
+    formatCurrency(document.getElementById("other"));
+  });
+
+  function formatCurrency(input) {
+    // Get input value
+    let value = input.value;
+
+    // Remove non-numeric characters
+    value = value.replace(/[^0-9.]/g, '');
+
+    // Format with commas for thousands separator
+    value = numberWithCommas(value);
+
+    // Set formatted value back to input
+    input.value = value;
+  }
+
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+</script>

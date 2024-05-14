@@ -2,13 +2,13 @@ import { IsNotEmpty } from 'class-validator';
 
 export class AutoPlanningDto {
   @IsNotEmpty()
-  readonly totalMoney: number;
+  readonly totalMoney: string;
 
   @IsNotEmpty()
-  readonly expenses: number;
+  readonly expenses: string;
 
   @IsNotEmpty()
-  readonly saving: number;
+  readonly saving: string;
 
   readonly food: boolean;
 

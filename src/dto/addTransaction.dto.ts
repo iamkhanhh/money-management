@@ -11,7 +11,7 @@ export class AddTransactionDto {
   readonly category_name: String;
 
   @IsNotEmpty()
-  readonly amount_of_money: number;
+  readonly amount_of_money: string;
 
   readonly exchange_date: Date;
 }

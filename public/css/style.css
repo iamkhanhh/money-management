@@ -465,8 +465,8 @@ input[type="checkbox"] {
   height: 100vh;
   width: 100vw;
   background-position: center;
-  background-image: url(../img/background-dashboard.png);
-  background-size: 100%;
+  background-image: url(../img/test3.png);
+  background-size: cover;
   background-repeat: no-repeat;
   display: flex;
   justify-content: center;
@@ -474,11 +474,11 @@ input[type="checkbox"] {
 }
 
 .my-dashboard-components {
-  background-color: rgba(72, 72, 72, 0.5);
+  background-color: rgba(72, 72, 72, 0.2);
+  box-shadow: 0px 4px 12px 4px #c9c9c9;
   width: 1000px;
   height: 614px;
   margin-top: 32px;
-  box-shadow: 0px 4px 12px 4px #c9c9c9;
   /* z-index: 2; */
 }
 
@@ -491,9 +491,7 @@ input[type="checkbox"] {
 .component-function {
   margin: 12px;
   width: 30%; 
-  /* height: 100px; */
   box-sizing: border-box; 
-  /* border: 1px solid #000;  */
   text-align: center;
   display: flex;
   align-items: center;
@@ -540,7 +538,6 @@ input[type="checkbox"] {
   width: 250px;
   height: 163px;
   border-radius: 30px;
-  background-image: url('../img/test-img-function.jpg');
   background-size: cover;
   overflow: hidden;
   position: relative;
@@ -565,15 +562,15 @@ input[type="checkbox"] {
 .component-function a .img-function:after {
   top: -1px;
   left: -1px;
-  border-top: 5px solid black;
-  border-left: 5px solid black;
+  border-top: 5px solid greenyellow;
+  border-left: 5px solid greenyellow;
 }
 
 .component-function a .img-function:before {
   bottom: -1px;
   right: -1px;
-  border-bottom: 5px solid black;
-  border-right: 5px solid black;
+  border-bottom: 5px solid greenyellow;
+  border-right: 5px solid greenyellow;
 }
 
 .component-function a:hover .img-function:before,

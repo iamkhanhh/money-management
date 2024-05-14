@@ -11,6 +11,9 @@ import { BudgetPlanDto } from 'src/dto/budgetPlan.dto';
 import { AutoPlanningDto } from 'src/dto/autoPlanning.dto';
 import { Users } from 'src/entities/user.entity';
 import { InforReportDto } from 'src/dto/inforReportDto.dto';
+import { createObjectCsvWriter } from 'csv-writer';
+import * as moment from 'moment';
+import * as fs from 'fs';
 
 @Injectable()
 export class FunctionsService {
@@ -77,6 +80,44 @@ export class FunctionsService {
     return payload.userName;
   }
 
+  async exportToCsv(data: any[], userName: string) {
+
+    const currentTime = moment().format('YYYYMMDDHHmmss');
+    const nameToDownload = `${userName}-${currentTime}`;
+    const fileName = `${userName}-${currentTime}.csv`;
+
+    const records = data.map(exchange => ({
+      user_id: exchange.user_id,
+      transaction_name: exchange.name,
+      payment_method: exchange.payment_method,
+      category_name: exchange.category_name,
+      amount_of_money: exchange.amount_of_money,
+      exchange_date: exchange.exchange_date,
+    }));
+
+    // Tạo tệp CSV và ghi dữ liệu
+    const csvWriter = createObjectCsvWriter({
+      path: `exportSearching/${fileName}`,
+      header: [
+        { id: 'user_id', title: 'User ID' },
+        { id: 'transaction_name', title: "Tracsaction's name" },
+        { id: 'payment_method', title: 'payment_method' },
+        { id: 'category_name', title: 'Category Name' },
+        { id: 'amount_of_money', title: 'amount_of_money' },
+        { id: 'exchange_date', title: 'exchange_date' },
+      ],
+    });
+    
+    await csvWriter.writeRecords(records);
+
+    return nameToDownload
+  }
+
+  deleteFile(filePath: string): void {
+    // Xóa tệp
+    fs.unlinkSync(filePath);
+  }
+
   async addTransaction(cookie: string, addTransactionDto: AddTransactionDto) {
     const payload = await this.jwtService.verifyAsync(cookie, { secret: process.env.JWT_SECRET_KEY })
     var isAdded = true;
@@ -108,14 +149,14 @@ export class FunctionsService {
     newTransaction.name = addTransactionDto.name.trim() as string;
     newTransaction.payment_method = addTransactionDto.payment_method as string;
     newTransaction.user_id = payload.userID;
-    newTransaction.amount_of_money = addTransactionDto.amount_of_money;
+    newTransaction.amount_of_money = parseFloat(addTransactionDto.amount_of_money.replace(/,/g, ''));
     newTransaction.category_name = addTransactionDto.category_name as string;
     newTransaction.exchange_date = exchangeDate;
     await this.exchangeRepository.save(newTransaction);
 
     await this.budgetRepository.update(
       { user_id: payload.userID, budget_month: exchangeDate.getMonth() + 1, budget_year: exchangeDate.getFullYear(), category_name: addTransactionDto.category_name as string },
-      { amount_used: (checkBudget[0].amount_used + Number(addTransactionDto.amount_of_money)) }
+      { amount_used: (checkBudget[0].amount_used + parseFloat(addTransactionDto.amount_of_money.replace(/,/g, ''))) }
     );
 
     var checkIncome = await this.incomeRepository.find({
@@ -128,7 +169,7 @@ export class FunctionsService {
 
     await this.incomeRepository.update(
       { user_id: payload.userID, income_month: exchangeDate.getMonth() + 1, income_year: exchangeDate.getFullYear() },
-      { total_money_used: (checkIncome[0].total_money_used + Number(addTransactionDto.amount_of_money)) }
+      { total_money_used: (checkIncome[0].total_money_used + parseFloat(addTransactionDto.amount_of_money.replace(/,/g, ''))) }
     );
 
     return isAdded;
@@ -197,7 +238,11 @@ export class FunctionsService {
 
     searchData.sort((a, b) => new Date(b.exchange_date).getTime() - new Date(a.exchange_date).getTime());
 
-    return searchData;
+    const fileName = await this.exportToCsv(searchData, payload.userName);
+    return {
+      dataSearch: searchData,
+      fileName
+    };
   }
 
   async showBudgetPlan(cookie: string) {
@@ -251,7 +296,7 @@ export class FunctionsService {
   async postBudgetPlan(cookie: string, budgetPlanDto: BudgetPlanDto) {
     const payload = await this.jwtService.verifyAsync(cookie, { secret: process.env.JWT_SECRET_KEY });
     var isValidPlan = true;
-    if (Number(budgetPlanDto.food) + Number(budgetPlanDto.education) + Number(budgetPlanDto.entertainment) + Number(budgetPlanDto.clothes) + Number(budgetPlanDto.invest) + Number(budgetPlanDto.other) > Number(budgetPlanDto.totalMoney)) {
+    if (parseFloat(budgetPlanDto.food.replace(/,/g, '')) + parseFloat(budgetPlanDto.clothes.replace(/,/g, '')) + parseFloat(budgetPlanDto.education.replace(/,/g, '')) + parseFloat(budgetPlanDto.entertainment.replace(/,/g, '')) + parseFloat(budgetPlanDto.invest.replace(/,/g, '')) + parseFloat(budgetPlanDto.other.replace(/,/g, '')) > parseFloat(budgetPlanDto.totalMoney.replace(/,/g, ''))) {
       isValidPlan = false
     } else {
       var dayBudget = new Date();
@@ -267,22 +312,22 @@ export class FunctionsService {
         for (let budget of budgetExist) {
           switch (budget.category_name) {
             case 'food':
-              temp_amount = Number(budgetPlanDto.food);
+              temp_amount = parseFloat(budgetPlanDto.food.replace(/,/g, ''));
               break;
             case 'education':
-              temp_amount = Number(budgetPlanDto.education);
+              temp_amount = parseFloat(budgetPlanDto.education.replace(/,/g, ''));
               break;
             case 'entertainment':
-              temp_amount = Number(budgetPlanDto.entertainment);
+              temp_amount = parseFloat(budgetPlanDto.entertainment.replace(/,/g, ''));
               break;
             case 'clothes':
-              temp_amount = Number(budgetPlanDto.clothes);
+              temp_amount = parseFloat(budgetPlanDto.clothes.replace(/,/g, ''));
               break;
             case 'invest':
-              temp_amount = Number(budgetPlanDto.invest);
+              temp_amount = parseFloat(budgetPlanDto.invest.replace(/,/g, ''));
               break;
-            case 'food':
-              temp_amount = Number(budgetPlanDto.other);
+            case 'other':
+              temp_amount = parseFloat(budgetPlanDto.other.replace(/,/g, ''));
               break;
             default:
               break;
@@ -294,14 +339,14 @@ export class FunctionsService {
         }
         await this.incomeRepository.update(
           { user_id: payload.userID, income_month: dayBudget.getMonth() + 1, income_year: dayBudget.getFullYear() },
-          { total_money_income: Number(budgetPlanDto.totalMoney) }
+          { total_money_income: parseFloat(budgetPlanDto.totalMoney.replace(/,/g, '')) }
         );
       } else {
         const newIncome = new Income();
         newIncome.user_id = payload.userID;
         newIncome.income_month = dayBudget.getMonth() + 1;
         newIncome.income_year = dayBudget.getFullYear();
-        newIncome.total_money_income = Number(budgetPlanDto.totalMoney);
+        newIncome.total_money_income = parseFloat(budgetPlanDto.totalMoney.replace(/,/g, ''));
         newIncome.total_money_used = 0;
         await this.incomeRepository.save(newIncome);
 
@@ -310,22 +355,22 @@ export class FunctionsService {
           var temp_amount;
           switch (cate) {
             case 'food':
-              temp_amount = Number(budgetPlanDto.food);
+              temp_amount = parseFloat(budgetPlanDto.food.replace(/,/g, ''));
               break;
             case 'education':
-              temp_amount = Number(budgetPlanDto.education);
+              temp_amount = parseFloat(budgetPlanDto.education.replace(/,/g, ''));
               break;
             case 'entertainment':
-              temp_amount = Number(budgetPlanDto.entertainment);
+              temp_amount = parseFloat(budgetPlanDto.entertainment.replace(/,/g, ''));
               break;
             case 'clothes':
-              temp_amount = Number(budgetPlanDto.clothes);
+              temp_amount = parseFloat(budgetPlanDto.clothes.replace(/,/g, ''));
               break;
             case 'invest':
-              temp_amount = Number(budgetPlanDto.invest);
+              temp_amount = parseFloat(budgetPlanDto.invest.replace(/,/g, ''));
               break;
             case 'other':
-              temp_amount = Number(budgetPlanDto.other);
+              temp_amount = parseFloat(budgetPlanDto.other.replace(/,/g, ''));
               break;
             default:
               break;
@@ -349,13 +394,13 @@ export class FunctionsService {
     const payload = await this.jwtService.verifyAsync(cookie, { secret: process.env.JWT_SECRET_KEY });
     var data = {} as any, isNotValid = false, moneyLeftAfterDvide = 0;
 
-    if (Number(autoPlanningDto.expenses) + Number(autoPlanningDto.saving) >= Number(autoPlanningDto.totalMoney)) {
+    if (parseFloat(autoPlanningDto.expenses.replace(/,/g, '')) + parseFloat(autoPlanningDto.saving.replace(/,/g, '')) >= parseFloat(autoPlanningDto.totalMoney.replace(/,/g, ''))) {
       isNotValid = true;
     } else {
       data.totalMoney = autoPlanningDto.totalMoney;
       data.saving = autoPlanningDto.saving;
       data.expenses = autoPlanningDto.expenses;
-      var moneyLeft = autoPlanningDto.totalMoney - autoPlanningDto.expenses - autoPlanningDto.saving;
+      var moneyLeft = parseFloat(autoPlanningDto.totalMoney.replace(/,/g, '')) - parseFloat(autoPlanningDto.expenses.replace(/,/g, '')) - parseFloat(autoPlanningDto.saving.replace(/,/g, ''));
 
       var selectedCategories = [];
       for (const [key, value] of Object.entries(autoPlanningDto)) {

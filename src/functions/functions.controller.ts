@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Redirect, Render, Req, Res, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Redirect, Render, Req, Res, ValidationPipe } from '@nestjs/common';
 import { Request } from 'express';
 import { Response } from 'express';
 import { FunctionsService } from './functions.service';
@@ -58,18 +58,34 @@ export class FunctionsController {
     }
   }
 
+  @Get('download-report/:fileName')
+  async downloadReport(
+    @Param('fileName') fileName: string, 
+    @Res() res: Response
+  ) {
+    res.download(`exportSearching/${fileName}.csv`, (err) => {
+      if (err) {
+        return res.status(500).send('Download failed');
+      }
+
+      // Xóa tệp sau khi tải xuống thành công
+      this.functionsService.deleteFile(`exportSearching/${fileName}.csv`);
+    });
+  }
+
   @Post('search-for-transactions')
   @Render('functions/search-for-transactions-page')
   async SearchForTransactions(
     @Req() req: Request,
     @Body() searchTransactionDto: SearchTransactionDto
   ) {
-    const dataSearch = await this.functionsService.SearchForTransactions(req.cookies['token'], searchTransactionDto);
+    const {dataSearch, fileName} = await this.functionsService.SearchForTransactions(req.cookies['token'], searchTransactionDto);
     return {
       dataSearch,
       showHeader: true,
       showFooter: false,
-      userName: await this.functionsService.getUserName(req.cookies['token'])
+      userName: await this.functionsService.getUserName(req.cookies['token']),
+      fileName
     }
   }
 
@@ -162,7 +178,7 @@ export class FunctionsController {
       showHeader: true,
       showFooter: false,
       userName: await this.functionsService.getUserName(req.cookies['token']),
-      moneyLeft,
+      moneyLeft: moneyLeft.toLocaleString(),
       pieChart,
       progressChart,
       dynamicChart,
@@ -182,7 +198,7 @@ export class FunctionsController {
       showHeader: true,
       showFooter: false,
       userName: await this.functionsService.getUserName(req.cookies['token']),
-      moneyLeft,
+      moneyLeft: moneyLeft.toLocaleString(),
       pieChart,
       progressChart,
       dynamicChart,

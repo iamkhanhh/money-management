@@ -23,14 +23,15 @@ import { MailModule } from './mail/mail.module';
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,
-      port: 3306,
+      // host: 'localhost',
+      port: 3306, 
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       entities: [Users, Exchange, Budget, Income],
       synchronize: true,
     }),
-    AuthModule,
+    AuthModule, 
     DashboardModule,
     JwtModule.register({
       global: true,

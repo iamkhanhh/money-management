@@ -2,23 +2,23 @@ import { IsNotEmpty } from 'class-validator';
 
 export class BudgetPlanDto {
   @IsNotEmpty()
-  totalMoney: number;
+  totalMoney: string;
 
   @IsNotEmpty()
-  food: number;
+  food: string;
 
   @IsNotEmpty()
-  entertainment: number;
+  entertainment: string;
 
   @IsNotEmpty()
-  education: number;
+  education: string;
 
   @IsNotEmpty()
-  clothes: number;
+  clothes: string;
 
   @IsNotEmpty()
-  invest: number;
+  invest: string;
 
   @IsNotEmpty()
-  other: number;
+  other: string;
 }

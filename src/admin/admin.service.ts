@@ -5,7 +5,7 @@ import { Budget } from 'src/entities/budget.entity';
 import { Exchange } from 'src/entities/exchange.entity';
 import { Income } from 'src/entities/income.entity';
 import { Users } from 'src/entities/user.entity';
-import { LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
+import { Between, LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { EditUserDto } from 'src/dto/editUser.dto';
 import { SearchUserDto } from 'src/dto/searchUser.dto';
@@ -200,6 +200,7 @@ export class AdminService {
     firstDayOfMonth.setHours(0, 0, 0, 0);
     const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
     lastDayOfMonth.setHours(23, 59, 59, 59);
+
     var data = {} as StatisticCategories;
     data.food = 0;
     data.education = 0;
@@ -213,15 +214,15 @@ export class AdminService {
         profession: job
       }
     })
+
     for (let user of usersData) {
       const exchangeData = await this.exchangeRepository.find({
-        where: [
-          { createdAt: MoreThanOrEqual(firstDayOfMonth) },
-          { createdAt: LessThanOrEqual(lastDayOfMonth) },
-          { user_id: user.id }
-        ]
+        where: {
+          user_id: user.id,
+          exchange_date: Between(firstDayOfMonth, lastDayOfMonth)
+        }
       });
-
+      
       for (let exchange of exchangeData) {
         switch (exchange.category_name) {
           case 'food':
@@ -247,7 +248,6 @@ export class AdminService {
         }
       }
     }
-
     return data;
   }
 
@@ -263,10 +263,9 @@ export class AdminService {
     lastDayOfMonth.setHours(23, 59, 59, 59);
 
     const newUsersMonthly = await this.usersRepository.find({
-      where: [
-        { createdAt: MoreThanOrEqual(firstDayOfMonth) },
-        { createdAt: LessThanOrEqual(lastDayOfMonth) }
-      ]
+      where: {
+        createdAt: Between(firstDayOfMonth, lastDayOfMonth)
+      }
     });
     amountOfNewUsers = newUsersMonthly.length;
     const totalUsers = await this.usersRepository.find({});
@@ -281,7 +280,6 @@ export class AdminService {
           dataPieChart.student = dataPieChart.student + 1;
           listPercentageEachJob.student = listPercentageEachJob.student + 1;
           studentStatistic = await this.statisticJob('Student');
-
           break;
         case 'IT':
           dataPieChart.it = dataPieChart.it + 1;
@@ -313,15 +311,12 @@ export class AdminService {
       }
     }
 
-    listPercentageEachJob.student = Math.floor((listPercentageEachJob.student / amountOfNewUsers) * 100);
-    listPercentageEachJob.it = Math.floor((listPercentageEachJob.it / amountOfNewUsers) * 100);
-    listPercentageEachJob.teacher = Math.floor((listPercentageEachJob.teacher / amountOfNewUsers) * 100);
-    listPercentageEachJob.doctor = Math.floor((listPercentageEachJob.doctor / amountOfNewUsers) * 100);
-    listPercentageEachJob.worker = Math.floor((listPercentageEachJob.worker / amountOfNewUsers) * 100);
-    listPercentageEachJob.other = Math.floor((listPercentageEachJob.other / amountOfNewUsers) * 100);
-
-    console.log(studentStatistic)
-    console.log(itStatistic)
+    listPercentageEachJob.student = Math.floor((listPercentageEachJob.student / amountOfUsers) * 100);
+    listPercentageEachJob.it = Math.floor((listPercentageEachJob.it / amountOfUsers) * 100);
+    listPercentageEachJob.teacher = Math.floor((listPercentageEachJob.teacher / amountOfUsers) * 100);
+    listPercentageEachJob.doctor = Math.floor((listPercentageEachJob.doctor / amountOfUsers) * 100);
+    listPercentageEachJob.worker = Math.floor((listPercentageEachJob.worker / amountOfUsers) * 100);
+    listPercentageEachJob.other = Math.floor((listPercentageEachJob.other / amountOfUsers) * 100);
 
     return {
       amountOfNewUsers,

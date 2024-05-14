@@ -31,7 +31,8 @@ async function bootstrap() {
         sum: (a, b) => a + b,
         ifEquals: (arg1, arg2, options) => {
           (arg1 === arg2) ? options.fn(this) : options.inverse(this)
-        }
+        },
+        formatCurrency: (num) => num.toLocaleString()
       }
     }),
   );

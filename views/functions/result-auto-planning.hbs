@@ -2,8 +2,9 @@
   @import url("https://fonts.googleapis.com/css2?family=Maven+Pro:wght@500&display=swap");
 
   .support-body {
-    background-color: #c9c9c9;
+    background-image: url(../../public/img/bg-2.png);
     background-size: cover;
+    background-repeat: no-repeat;
     height: 100vh;
   }
 
@@ -68,7 +69,7 @@
     color: #333;
   }
 
-  input[type="number"] {
+  input[type="text"] {
     width: 100%;
     padding-top: 1em;
   }
@@ -273,17 +274,17 @@
       <div class="support-form">
         <div class="flex1">
           <div class="input-container input-value">
-            <input type="number" value="{{ data.totalMoney }}" name="totalMoney" required />
+            <input type="text" value="{{ data.totalMoney }}" name="totalMoney" id="totalMoney" oninput="formatCurrency(this)" />
             <label for="Total money">Total money</label>
           </div>
         </div>
         <div class="flex2">
           <div class="input-container input-value">
-            <input type="number" value="{{ data.expenses }}" name="Ex" required />
+            <input type="text" value="{{ data.expenses }}" name="Ex" />
             <label for="Ex">Expenses</label>
           </div>
           <div class="input-container input-value">
-            <input type="number" value="{{ data.saving }}" name="Sv" required />
+            <input type="text" value="{{ data.saving }}" name="Sv" />
             <label for="Sv">Saving</label>
           </div>
         </div>
@@ -292,29 +293,29 @@
         </div>
         <div class="flex4">
           <div class="input-container input-value">
-            <input type="number" value="{{ data.food }}" name="food" required />
+            <input type="text" value="{{ data.food }}" name="food" id="food" oninput="formatCurrency(this)" />
             <label for="Food">Food</label>
           </div>
           <div class="input-container input-value">
-            <input type="number" value="{{ data.entertainment }}" name="entertainment" required />
+            <input type="text" value="{{ data.entertainment }}" name="entertainment" id="entertainment" oninput="formatCurrency(this)" />
             <label for="Entertainment">Entertainment</label>
           </div>
           <div class="input-container input-value">
-            <input type="number" value="{{ data.education }}" name="education" required />
+            <input type="text" value="{{ data.education }}" name="education" id="education" oninput="formatCurrency(this)" />
             <label for="Education">Education</label>
           </div>
         </div>
         <div class="flex5">
           <div class="input-container input-value">
-            <input type="number" value="{{ data.clothes }}" name="clothes" required />
+            <input type="text" value="{{ data.clothes }}" name="clothes" id="clothes" oninput="formatCurrency(this)" />
             <label for="Clothes">Clothes</label>
           </div>
           <div class="input-container input-value">
-            <input type="number" value="{{ data.invest }}" name="invest" required />
+            <input type="text" value="{{ data.invest }}" name="invest" id="invest" oninput="formatCurrency(this)" />
             <label for="Invest">Invest</label>
           </div>
           <div class="input-container input-value">
-            <input type="number" value="{{ data.other }}" name="other" required />
+            <input type="text" value="{{ data.other }}" name="other" id="other" oninput="formatCurrency(this)" />
             <label for="Other">Other</label>
           </div>
         </div>
@@ -341,3 +342,33 @@
   <strong>Failed!</strong> There is an error when analyzing
 </div>
 {{/if}}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    formatCurrency(document.getElementById("totalMoney"));
+    formatCurrency(document.getElementById("food"));
+    formatCurrency(document.getElementById("entertainment"));
+    formatCurrency(document.getElementById("education"));
+    formatCurrency(document.getElementById("clothes"));
+    formatCurrency(document.getElementById("invest"));
+    formatCurrency(document.getElementById("other"));
+  });
+
+  function formatCurrency(input) {
+    // Get input value
+    let value = input.value;
+
+    // Remove non-numeric characters
+    value = value.replace(/[^0-9.]/g, '');
+
+    // Format with commas for thousands separator
+    value = numberWithCommas(value);
+
+    // Set formatted value back to input
+    input.value = value;
+  }
+
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+</script>

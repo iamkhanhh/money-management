@@ -1,9 +1,12 @@
 /*
 MySQL Backup
 Database: money_management
-Backup Time: 2024-05-12 15:08:28
+Backup Time: 2024-05-13 15:20:41
 */
-CREATE DATABASE IF NOT EXISTS money_management;
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'khanh123';
+FLUSH PRIVILEGES;
+
+CREATE DATABASE IF NOT EXISTS money_management CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE money_management;
 SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `money_management`.`budget`;
@@ -21,7 +24,7 @@ CREATE TABLE `budget` (
   `category_name` varchar(255) NOT NULL,
   `amount_used` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `exchange` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -33,7 +36,7 @@ CREATE TABLE `exchange` (
   `amount_of_money` int NOT NULL,
   `exchange_date` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `income` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
@@ -44,7 +47,7 @@ CREATE TABLE `income` (
   `total_money_income` int NOT NULL,
   `total_money_used` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `users` (
   `id` int NOT NULL AUTO_INCREMENT,
   `userName` varchar(255) NOT NULL,
@@ -52,14 +55,14 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `gender` varchar(255) NOT NULL,
   `profession` varchar(255) NOT NULL,
-  `fullName` varchar(255) NOT NULL,
+  `fullName` nvarchar(255) NOT NULL,
   `isDeleted` tinyint NOT NULL,
   `role` varchar(255) NOT NULL,
   `createdAt` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   `updatedAt` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
   `date_of_birth` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 BEGIN;
 LOCK TABLES `money_management`.`budget` WRITE;
 DELETE FROM `money_management`.`budget`;
@@ -81,6 +84,6 @@ COMMIT;
 BEGIN;
 LOCK TABLES `money_management`.`users` WRITE;
 DELETE FROM `money_management`.`users`;
-INSERT INTO `money_management`.`users` (`id`,`userName`,`password`,`email`,`gender`,`profession`,`fullName`,`isDeleted`,`role`,`createdAt`,`updatedAt`,`date_of_birth`) VALUES (1, 'iamkhanhh', '$2b$12$Px.CVrYoU59VUO1DokbrAe4uns5Ky4fK8sXGwCEgnQn32ZeevMUcy', 'khanh9102004@gmail.com', 'male', 'IT', 'Nguyễn Quốc Khánh ', 0, 'admin', '2024-04-23 13:59:43.005819', '2024-05-07 00:02:06.000000', '2004-10-09'),(2, 'iamkhanhhhhh', '$2b$12$DKt4DPhqWzwS2WDUkuwb8eIbP9Zhhfj4n.CinWlEIg8cPA13MJRwG', 'khanh9102004@gmail.com', 'male', 'Student', 'Nguyễn Quốc Khánh', 0, 'user', '2024-04-23 14:07:51.291646', '2024-05-07 01:11:57.000000', '1111-11-10');
+INSERT INTO `money_management`.`users` (`id`,`userName`,`password`,`email`,`gender`,`profession`,`fullName`,`isDeleted`,`role`,`createdAt`,`updatedAt`,`date_of_birth`) VALUES (1, 'iamkhanhh', '$2b$12$Px.CVrYoU59VUO1DokbrAe4uns5Ky4fK8sXGwCEgnQn32ZeevMUcy', 'khanh9102004@gmail.com', 'male', 'IT', 'Nguyễn Quốc Khánh ', 0, 'admin', '2024-04-23 13:59:43.005819', '2024-05-07 00:02:06.000000', '2004-10-09'),(2, 'iamkhanhhhhh', '$2b$12$DKt4DPhqWzwS2WDUkuwb8eIbP9Zhhfj4n.CinWlEIg8cPA13MJRwG', 'khanh9102004@gmail.com', 'male', 'Student', 'Nguyễn Quốc Khánh', 0, 'user', '2024-04-23 14:07:51.291646', '2024-05-07 01:11:57.000000', '1111-11-10'),(4, 'doctor123', '$2b$12$sDo1/8pGZ4y20N1MMv3rlOquwmggzmeANpolJFnInhf5s6z2khSS2', 'test123@gmail.com', 'female', 'Doctor', 'testDoctor', 0, 'user', '2024-05-12 23:44:59.110229', '2024-05-12 23:44:59.110229', '2023-05-18');
 UNLOCK TABLES;
 COMMIT;

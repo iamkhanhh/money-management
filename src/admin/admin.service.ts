@@ -215,6 +215,10 @@ export class AdminService {
       }
     })
 
+    if(job=='Student') {
+      console.log(usersData);
+    }
+
     for (let user of usersData) {
       const exchangeData = await this.exchangeRepository.find({
         where: {
@@ -279,7 +283,9 @@ export class AdminService {
         case 'Student':
           dataPieChart.student = dataPieChart.student + 1;
           listPercentageEachJob.student = listPercentageEachJob.student + 1;
-          studentStatistic = await this.statisticJob('Student');
+          if ( Object.keys(studentStatistic).length === 0) {
+            studentStatistic = await this.statisticJob('Student');
+          }
           break;
         case 'IT':
           dataPieChart.it = dataPieChart.it + 1;

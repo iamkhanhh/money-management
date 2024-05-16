@@ -1,0 +1,49 @@
+User ID,Tracsaction's name,payment_method,Category Name,amount_of_money,exchange_date
+1,Transaction 23,e-Wallet,clothes,300000,2024-05-30
+1,Transaction 22,e-Wallet,clothes,150000,2024-05-29
+1,Transaction 20,e-Wallet,other,280000,2024-05-24
+1,Transaction 21,e-Wallet,clothes,200000,2024-05-24
+1,Transaction 19,Credit card,entertainment,270000,2024-05-23
+1,Transaction 18,Debit card,invest,260000,2024-05-22
+1,Transaction 17,Cash,education,250000,2024-05-21
+1,Transaction 16,e-Wallet,food,240000,2024-05-20
+1,Transaction 15,Credit card,other,230000,2024-05-19
+1,Transaction 14,Debit card,entertainment,220000,2024-05-18
+1,Transaction 13,Cash,invest,210000,2024-05-17
+1,Transaction 12,e-Wallet,education,200000,2024-05-16
+1,phim sech,Cash,Entertainment,1000000,2024-05-16
+1,Transaction 11,Credit card,food,190000,2024-05-15
+1,bird,Cash,Food,10000,2024-05-15
+1,Transaction 10,Debit card,other,170000,2024-05-14
+1,Transaction 9,Cash,entertainment,110000,2024-05-13
+1,Transaction 8,e-Wallet,invest,160000,2024-05-12
+1,Transaction 7,Credit card,education,140000,2024-05-11
+1,Transaction 6,Debit card,food,90000,2024-05-10
+1,Transaction 5,Cash,other,180000,2024-05-09
+1,Transaction 4,e-Wallet,entertainment,120000,2024-05-08
+1,Transaction 3,Credit card,invest,200000,2024-05-07
+1,Transaction 2,Debit card,education,150000,2024-05-06
+1,Transaction 1,Cash,food,100000,2024-05-05
+1,Transaction 23,e-Wallet,clothes,300000,2024-04-30
+1,Transaction 22,e-Wallet,clothes,500000,2024-04-29
+1,Transaction 20,e-Wallet,other,113000,2024-04-24
+1,Transaction 21,e-Wallet,clothes,150000,2024-04-24
+1,Transaction 19,Credit card,entertainment,270000,2024-04-23
+1,Transaction 18,Debit card,invest,260000,2024-04-22
+1,Transaction 17,Cash,education,400000,2024-04-21
+1,Transaction 16,e-Wallet,food,240000,2024-04-20
+1,Transaction 15,Credit card,other,80000,2024-04-19
+1,Transaction 14,Debit card,entertainment,220000,2024-04-18
+1,Transaction 13,Cash,invest,210000,2024-04-17
+1,Transaction 12,e-Wallet,education,200000,2024-04-16
+1,Transaction 11,Credit card,food,190000,2024-04-15
+1,Transaction 10,Debit card,other,170000,2024-04-14
+1,Transaction 9,Cash,entertainment,110000,2024-04-13
+1,Transaction 8,e-Wallet,invest,150000,2024-04-12
+1,Transaction 7,Credit card,education,140000,2024-04-11
+1,Transaction 6,Debit card,food,90000,2024-04-10
+1,Transaction 5,Cash,other,99000,2024-04-09
+1,Transaction 4,e-Wallet,entertainment,300000,2024-04-08
+1,Transaction 3,Credit card,invest,150000,2024-04-07
+1,Transaction 2,Debit card,education,100000,2024-04-06
+1,Transaction 1,Cash,food,120000,2024-04-05

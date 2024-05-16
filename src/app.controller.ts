@@ -28,6 +28,18 @@ export class AppController {
     }
   }
 
+  @Get('about-us')
+  @Render('meetTheTeam')
+  async aboutUs(@Req() req: Request){
+    if (req.cookies['token']) {
+      var userName = await this.appService.getUserName(req.cookies['token']);
+    }
+    return {
+      showHeader: true,
+      userName
+    }
+  }
+
   @Get()
   @Render('welcome')
   async getHello(@Req() req: Request){
@@ -40,5 +52,4 @@ export class AppController {
       userName
     }
   }
-
 }

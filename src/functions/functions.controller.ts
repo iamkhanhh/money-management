@@ -174,6 +174,7 @@ export class FunctionsController {
     @Req() req: Request
   ) {
     const {moneyLeft, pieChart, progressChart, dynamicChart, monthInfor, yearInfor} = await this.functionsService.showInformationReport(req.cookies['token']);
+    
     return {
       showHeader: true,
       showFooter: false,

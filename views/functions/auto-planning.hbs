@@ -52,6 +52,7 @@
     width: 100%;
     height: 104vh;
     color: #455A64;
+    padding-top: 54px;
   }
 
   .Wrapper {
@@ -215,13 +216,15 @@
   <h1 style="color: #60aa82;">AUTO PLANNING</h1>
   <form class="Wrapper" action="/functions/auto-planning" method="post">
     <div class="Input-container">
-      <input type="text" id="input" class="Input-text" placeholder="Total money" name="totalMoney" id="totalMoney" oninput="formatCurrency(this)" style="border: 1px solid black;">
+      <input type="text" id="input" class="Input-text" placeholder="Total money" name="totalMoney" aria-describedby="totalMoneyHelp" id="totalMoney" oninput="formatCurrency(this)" style="border: 1px solid black;">
       <label for="input" class="Input-label">Total money</label>
+      <small id="totalMoneyHelp" class="form-text text-muted">Your total income within a month.</small>
     </div>
 
     <div class="Input-container">
-      <input type="text" id="input" class="Input-text" placeholder="Expenses" name="expenses" id="expenses" oninput="formatCurrency(this)" style="border: 1px solid black;">
+      <input type="text" id="input" class="Input-text" placeholder="Expenses" name="expenses" aria-describedby="enpensesHelp" id="expenses" oninput="formatCurrency(this)" style="border: 1px solid black;">
       <label for="input" class="Input-label">Expenses</label>
+      <small id="enpensesHelp" class="form-text text-muted">Total fixed costs such as rent, electricity, water,...</small>
     </div>
 
     <div class="Input-container">

@@ -215,20 +215,16 @@ export class AdminService {
       }
     })
 
-    if(job=='Student') {
-      console.log(usersData);
-    }
-
     for (let user of usersData) {
       const exchangeData = await this.exchangeRepository.find({
         where: {
           user_id: user.id,
           exchange_date: Between(firstDayOfMonth, lastDayOfMonth)
         }
-      });
+      }); 
       
       for (let exchange of exchangeData) {
-        switch (exchange.category_name) {
+        switch (exchange.category_name.toLowerCase()) {
           case 'food':
             data.food += exchange.amount_of_money;
             break;

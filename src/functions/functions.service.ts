@@ -137,11 +137,11 @@ export class FunctionsService {
         category_name: addTransactionDto.category_name as string
       }
     });
-    if (!checkBudget) {
+    if (checkBudget.length == 0) {
       return false;
     }
 
-    if ((checkBudget[0].amount_used + Number(addTransactionDto.amount_of_money)) > checkBudget[0].amount_of_money) {
+    if ((Number(checkBudget[0].amount_used) + parseFloat(addTransactionDto.amount_of_money.replace(/,/g, ''))) > checkBudget[0].amount_of_money) {
       isAdded = false;
     }
 
@@ -296,7 +296,11 @@ export class FunctionsService {
   async postBudgetPlan(cookie: string, budgetPlanDto: BudgetPlanDto) {
     const payload = await this.jwtService.verifyAsync(cookie, { secret: process.env.JWT_SECRET_KEY });
     var isValidPlan = true;
-    if (parseFloat(budgetPlanDto.food.replace(/,/g, '')) + parseFloat(budgetPlanDto.clothes.replace(/,/g, '')) + parseFloat(budgetPlanDto.education.replace(/,/g, '')) + parseFloat(budgetPlanDto.entertainment.replace(/,/g, '')) + parseFloat(budgetPlanDto.invest.replace(/,/g, '')) + parseFloat(budgetPlanDto.other.replace(/,/g, '')) > parseFloat(budgetPlanDto.totalMoney.replace(/,/g, ''))) {
+    var totalMoenyLeft = parseFloat(budgetPlanDto.totalMoney.replace(/,/g, ''));
+    if (budgetPlanDto.expenses && budgetPlanDto.saving) {
+      totalMoenyLeft -= (parseFloat(budgetPlanDto.expenses.replace(/,/g, '')) + parseFloat(budgetPlanDto.saving.replace(/,/g, '')))
+    }
+    if (parseFloat(budgetPlanDto.food.replace(/,/g, '')) + parseFloat(budgetPlanDto.clothes.replace(/,/g, '')) + parseFloat(budgetPlanDto.education.replace(/,/g, '')) + parseFloat(budgetPlanDto.entertainment.replace(/,/g, '')) + parseFloat(budgetPlanDto.invest.replace(/,/g, '')) + parseFloat(budgetPlanDto.other.replace(/,/g, '')) > totalMoenyLeft) {
       isValidPlan = false
     } else {
       var dayBudget = new Date();
@@ -339,14 +343,14 @@ export class FunctionsService {
         }
         await this.incomeRepository.update(
           { user_id: payload.userID, income_month: dayBudget.getMonth() + 1, income_year: dayBudget.getFullYear() },
-          { total_money_income: parseFloat(budgetPlanDto.totalMoney.replace(/,/g, '')) }
+          { total_money_income: totalMoenyLeft }
         );
       } else {
         const newIncome = new Income();
         newIncome.user_id = payload.userID;
         newIncome.income_month = dayBudget.getMonth() + 1;
         newIncome.income_year = dayBudget.getFullYear();
-        newIncome.total_money_income = parseFloat(budgetPlanDto.totalMoney.replace(/,/g, ''));
+        newIncome.total_money_income = totalMoenyLeft;
         newIncome.total_money_used = 0;
         await this.incomeRepository.save(newIncome);
 
@@ -397,10 +401,10 @@ export class FunctionsService {
     if (parseFloat(autoPlanningDto.expenses.replace(/,/g, '')) + parseFloat(autoPlanningDto.saving.replace(/,/g, '')) >= parseFloat(autoPlanningDto.totalMoney.replace(/,/g, ''))) {
       isNotValid = true;
     } else {
+      var moneyLeft = parseFloat(autoPlanningDto.totalMoney.replace(/,/g, '')) - parseFloat(autoPlanningDto.expenses.replace(/,/g, '')) - parseFloat(autoPlanningDto.saving.replace(/,/g, ''));
       data.totalMoney = autoPlanningDto.totalMoney;
       data.saving = autoPlanningDto.saving;
       data.expenses = autoPlanningDto.expenses;
-      var moneyLeft = parseFloat(autoPlanningDto.totalMoney.replace(/,/g, '')) - parseFloat(autoPlanningDto.expenses.replace(/,/g, '')) - parseFloat(autoPlanningDto.saving.replace(/,/g, ''));
 
       var selectedCategories = [];
       for (const [key, value] of Object.entries(autoPlanningDto)) {

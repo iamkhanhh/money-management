@@ -4,6 +4,10 @@ export class BudgetPlanDto {
   @IsNotEmpty()
   totalMoney: string;
 
+  expenses: string;
+
+  saving: string;
+
   @IsNotEmpty()
   food: string;
 

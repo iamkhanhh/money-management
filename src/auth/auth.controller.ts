@@ -23,7 +23,7 @@ export class AuthController {
   }
 
   @Get('sign-up')
-  @Render('auth/signUp')
+  @Render('auth/signup')
   signUpGet() {
     return {
       showHeader: false,

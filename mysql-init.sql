@@ -9,6 +9,7 @@ FLUSH PRIVILEGES;
 
 CREATE DATABASE IF NOT EXISTS money_management CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE money_management;
+
 SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `money_management`.`budget`;
 DROP TABLE IF EXISTS `money_management`.`exchange`;

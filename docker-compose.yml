@@ -19,12 +19,13 @@ services:
     image: mysql:8.0.36
     restart: always
     environment:
-        - MYSQL_ROOT_PASSWORD=khanh123
-        - MYSQL_DATABASE=money_management 
+      MYSQL_ROOT_PASSWORD: khanh123
+      MYSQL_DATABASE: money_management
     ports:
       - 2004:3306
     volumes:
-      - ./mysql-data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
       - ./mysql-init.sql:/docker-entrypoint-initdb.d/mysql-init.sql
 
-      
+volumes:
+  mysql-data:

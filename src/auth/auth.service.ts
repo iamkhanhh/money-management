@@ -18,6 +18,22 @@ export class AuthService {
     private jwtService: JwtService
   ) { }
 
+  async getUserByToken(token: string) {
+    const payload = await this.jwtService.verifyAsync(token,{ secret: process.env.JWT_SECRET_KEY});
+    const data = await this.usersRepository.findOneBy({
+      id: payload.id,
+    })
+    return {  
+      userName: data.userName,
+      password: data.password,
+      email: data.email,
+      gender: data.gender,
+      profession: data.profession,
+      fullName: data.fullName,
+      date_of_birth: data.date_of_birth,
+    }
+  }
+
   async login(loginDto: LoginDto) {
     const data = await this.usersRepository.findOneBy({
       userName: loginDto.userName as string,
@@ -33,9 +49,17 @@ export class AuthService {
       throw new HttpException('Password did not match !', 404);
     }
 
-    const jwt = await this.jwtService.signAsync({userID: data.id, userName: data.userName, userRole: data.role});
+    const accessToken = await this.jwtService.signAsync({userID: data.id, userName: data.userName, userRole: data.role}, {
+      expiresIn: '1d',
+    });
 
-    return {userName: data.userName, token: jwt}
+    const refreshToken = await this.jwtService.signAsync({userID: data.id, userName: data.userName, userRole: data.role}, {
+      expiresIn: '7d',
+    });
+
+    const expiresIn = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
+
+    return {userName: data.userName, token: accessToken, refreshToken, expiresIn}
 
   }
 
@@ -66,9 +90,22 @@ export class AuthService {
     const userSaved = await this.usersRepository.save(user);
 
     const payload = { userID: userSaved.id, userName: userSaved.userName, userRole: userSaved.role };
+
+    const accessToken = await this.jwtService.signAsync(payload, {
+      expiresIn: '1d',
+    });
+
+    const refreshToken = await this.jwtService.signAsync(payload, {
+      expiresIn: '7d',
+    });
+
+    const expiresIn = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
+
     return {
-      token: await this.jwtService.signAsync(payload),
-      userName:  userSaved.userName
+      token: accessToken,
+      userName:  userSaved.userName,
+      refreshToken,
+      expiresIn
     };
   }
 

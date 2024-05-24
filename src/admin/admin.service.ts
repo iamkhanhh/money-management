@@ -176,13 +176,13 @@ export class AdminService {
     } else if (searchUserDto.userName) {
       data = await this.usersRepository.find({where: {userName: searchUserDto.userName.trim() as string}});
     } else {
-      if (searchUserDto.gender) {
+      if ((searchUserDto.gender != 'Choose...') && (searchUserDto.gender != '')) {
         whereClause.gender = searchUserDto.gender;
       }
-      if (searchUserDto.profession) {
+      if ((searchUserDto.profession != 'Choose...') && (searchUserDto.profession != '')) {
         whereClause.profession = searchUserDto.profession;
       }
-      if (whereClause) {
+      if (whereClause.length > 0) {
         data = await this.usersRepository.find({});
       } else {
         data = await this.usersRepository.find({

@@ -891,32 +891,56 @@ export class FunctionsService {
           case 'food':
             pieChart.food = cate.amount_used;
             dynamicChart.thisMonthFood = cate.amount_used;
-            progressChart.food = Math.floor((cate.amount_used / cate.amount_of_money) * 100);
+            if (cate.amount_of_money == 0) {
+              progressChart.food = cate.amount_used;
+            } else {
+              progressChart.food = Math.floor((cate.amount_used / cate.amount_of_money) * 100);
+            }
             break;
           case 'education':
             pieChart.education = cate.amount_used;
             dynamicChart.thisMonthEducation = cate.amount_used;
-            progressChart.education = Math.floor((cate.amount_used / cate.amount_of_money) * 100);
+            if (cate.amount_of_money == 0) {
+              progressChart.education = cate.amount_used;
+            } else {
+              progressChart.education = Math.floor((cate.amount_used / cate.amount_of_money) * 100);
+            }
             break;
           case 'entertainment':
             pieChart.entertainment = cate.amount_used;
             dynamicChart.thisMonthEntertainment = cate.amount_used;
-            progressChart.entertainment = Math.floor((cate.amount_used / cate.amount_of_money) * 100);
+            if (cate.amount_of_money == 0) {
+              progressChart.entertainment = cate.amount_used;
+            } else {
+              progressChart.entertainment = Math.floor((cate.amount_used / cate.amount_of_money) * 100);
+            }
             break;
           case 'clothes':
             pieChart.clothes = cate.amount_used;
             dynamicChart.thisMonthClothes = cate.amount_used;
-            progressChart.clothes = Math.floor((cate.amount_used / cate.amount_of_money) * 100);
+            if (cate.amount_of_money == 0) {
+              progressChart.clothes = cate.amount_used;
+            } else {
+              progressChart.clothes = Math.floor((cate.amount_used / cate.amount_of_money) * 100);
+            }
             break;
           case 'invest':
             pieChart.invest = cate.amount_used;
             dynamicChart.thisMonthInvest = cate.amount_used;
-            progressChart.invest = Math.floor((cate.amount_used / cate.amount_of_money) * 100);
+            if (cate.amount_of_money == 0) {
+              progressChart.invest = cate.amount_used;
+            } else {
+              progressChart.invest = Math.floor((cate.amount_used / cate.amount_of_money) * 100);
+            }
             break;
           case 'other':
             pieChart.other = cate.amount_used;
             dynamicChart.thisMonthOther = cate.amount_used;
-            progressChart.other = Math.floor((cate.amount_used / cate.amount_of_money) * 100);
+            if (cate.amount_of_money == 0) {
+              progressChart.other = cate.amount_used;
+            } else {
+              progressChart.other = Math.floor((cate.amount_used / cate.amount_of_money) * 100);
+            }
             break;
           default:
             break;

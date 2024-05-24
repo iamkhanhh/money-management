@@ -43,6 +43,9 @@ body {
 .header {
   border-bottom: 1px solid black;
   /* margin: 0px 12px; */
+  /* position: fixed;
+  width: 100vw;
+  top: 0; */
   background-color: white;
   z-index: 1;
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Redirect, Render, Req, Res, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, Redirect, Render, Req, Res, ValidationPipe, Headers } from '@nestjs/common';
 import { LoginDto } from 'src/dto/login.dto';
 import { SignUpDto } from 'src/dto/signup.dto';
 import { AuthService } from './auth.service';
@@ -31,25 +31,40 @@ export class AuthController {
     }
   }
 
+  @Get('token')
+  async getUserByToken(@Headers('authorization') authorizationHeader: string) {
+    return await this.authService.getUserByToken(authorizationHeader.split(' ')[1]);
+  }
+
   @Post('log-in')
   @Redirect('/dashboard')
   async login(
     @Body() loginDto: LoginDto,
     @Res({passthrough: true}) res: Response
   ) {
-    const { userName, token } = await this.authService.login(loginDto);
+    const { userName, token, refreshToken, expiresIn } = await this.authService.login(loginDto);
     res.cookie('token', token, {httpOnly: true});
-    return;
+    
+    return { 
+      authToken: token,
+      refreshToken,
+      expiresIn
+    };
   }
 
   @Post('sign-up')
   @Redirect('/dashboard')
   async signup(
-    @Body(new ValidationPipe()) signupDto: SignUpDto,
+    @Body() signupDto: SignUpDto,
     @Res({passthrough: true}) res: Response
   ) {
-    const {token, userName} = await this.authService.signUp(signupDto);
+    const {token, userName, refreshToken, expiresIn} = await this.authService.signUp(signupDto);
     res.cookie('token', token, {httpOnly: true});
+    return {
+      authToken: token,
+      refreshToken,
+      expiresIn 
+    };
   }
 
   @Post('change-infor')

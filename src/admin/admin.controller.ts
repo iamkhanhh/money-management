@@ -2,7 +2,6 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Redirect
 import { AdminService } from './admin.service';
 import { Request } from 'express';
 import { Response } from 'express';
-import { StatisticCategories } from './admin.service';
 import { EditUserDto } from 'src/dto/editUser.dto';
 import { SearchUserDto } from 'src/dto/searchUser.dto';
 
@@ -189,10 +188,10 @@ export class AdminController {
     const data = await this.adminService.searchUsers(searchUserDto);
     return { 
       showHeader: true,
-      userName: await this.adminService.getUserName(req.cookies['token']),
+      userName: req.cookies['token']? await this.adminService.getUserName(req.cookies['token']): 'user',
       data
     }
-  }
+  } 
 
   @Get('contact')
   @Render('admin/contact')

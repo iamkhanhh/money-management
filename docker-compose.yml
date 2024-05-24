@@ -4,12 +4,12 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+    restart: always
     environment:
       DB_HOST: mysqldb
       DB_USERNAME: root
       DB_PASSWORD: khanh123
       DB_DATABASE: money_management
-    restart: always
     ports:
       - 3000:3000
     depends_on:

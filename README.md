@@ -32,5 +32,5 @@
   + Student code: A45667.
   + Major: Information system.
 
-# Document
-- You can reach to the doc at ""
+# Document (Vietnamese)
+- You can reach to the doc at "https://docs.google.com/document/d/1Sg4exVXsqUzEnWNmGetQJ5gqCq1gj1RE/edit?usp=sharing&ouid=113083990242004696079&rtpof=true&sd=true"
